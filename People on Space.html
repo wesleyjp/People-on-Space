@@ -5,127 +5,16 @@
 	<script type="text/javascript" src="script/jquery-3.4.1.min.js"> </script>
 	<title>People on Space</title>
 
-	<style type="text/css">
-		body {
-			background-color: grey;
-			color: white;
-		}
-		img {
-			width: 170px;
-			height: 180px;
-		}
-		
-		canvas {
-			position: fixed;
-			width: 150px;
-			height: 150px;
-			border-radius: 75px;
-			background-color: black;
-			top: 10px;
-			right: 10px;
-		} 
-
-		#frame {
-			position: relative;
-			width: 1024px;
-			height: 800px;
-			border: solid 1px black;
-			margin: auto 160px;
-		}
-
-		.astro_table {
-			width: 250px;
-			height: 230px;
-			border: 1px solid black;
-			display: inline-block;
-			padding-left: 5px;
-
-		}
-
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
 	
 </head>
 <body>
 	<h1>Numero de Pessoas no Espaço</h1>
 	<br><br>
+	<dir id="conttent">Loading...</dir><hr><br>
 	<canvas></canvas>
-	<dir id="conttent"></dir><hr><br>
-
-	<script type="text/javascript">
-		var conttent = document.getElementById('conttent');
-		var astro = {nome: null, nave: null, foto: null}
-		var astroData = [];
-
-		
-		$.getJSON('http://api.open-notify.org/astros.json', function(data){
-			conttent.innerHTML = "Existem "+ data.number + " pessoas no espaço seus nomes são: <br><br>";
-			for (let i=0; i< data.people.length; i++) {
-				$.getJSON('https://en.wikipedia.org/w/api.php?action=query&format=json&formatversion=2&prop=pageimages|pageterms&origin=*&piprop=original&titles='+data.people[i].name, function(astroFoto){
-				
-				astro.nome = data.people[i].name;
-				astro.nave = data.people[i].craft;
-
-				try {astro.foto = astroFoto.query.pages[0].original.source} 
-				catch(e){console.log("Foto: " +data.people[i].name+ ", não encontrada."); astro.foto="img/avatar.jpg"}
-				
-
-				astroData.push(astro);
-				escreve(astro);
-
-				});
-			}
-			
-		});
-
-		function escreve(astroData) {
-				conttent.innerHTML += "<div class='astro_table'>NOME: " + astro.nome + "<br> NAVE: " + astro.nave + "<br><img src='" + astro.foto + "' id='astro_foto'></img></div>";
-		}
 	
-
-		//radar
-
-		var canvas = document.querySelector("canvas");
-		var ctx = canvas.getContext('2d');
-		var rX = 0; //radar x
-		var rY = 0; //radar y
-		var pont = true; //true soma, false subtrai
-		var vPont = 2; //velocidade do pont.
-
-		function loop() {
-			radarCalc();
-			render();
-			window.requestAnimationFrame(loop);
-		}
-		
-		function render() {
-			ctx.clearRect(0, 0, canvas.width, canvas.height);
-			ctx.strokeStyle = "green";
-			ctx.beginPath();
-			ctx.moveTo(canvas.width / 2, canvas.height / 2);
-			ctx.lineTo(rX, rY);
-			ctx.stroke();
-
-			ctx.fillStyle = "white"
-			ctx.font = "10px Arial";
-			ctx.fillText(".", randX, randY);
-		}
-
-		function radarCalc() {
-			if (pont && rX < canvas.width) { rX+=vPont} else {
-				if (pont && rY < canvas.height) {rY+=vPont} else {pont=false}
-			}
-			if (!pont && rX > 0) {rX-=vPont} else {
-				if (!pont && rY > 0) {rY-=vPont} else {pont=true}
-			}
-			randX = Math.floor(Math.random() * (canvas.width - 0 + 0)) + 0;
-			randY = Math.floor(Math.random() * (canvas.height - 0 + 0)) + 0;
-		}
-		
-
-		loop();
-		
-	</script>
+	<script type="text/javascript" src="script/script.js"></script>
 	<footer><script type="text/javascript">document.querySelector('footer').innerText="\u0057\u0065\u0073\u006C\u0065\u0079\u00A0\u004A\u0075\u006E\u0069\u006F\u00A0\u00A9\u0032\u0030\u0031\u0039";</script></footer>
 </body>
 </html>
