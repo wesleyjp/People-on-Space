@@ -6,13 +6,16 @@ body {
 			width: 170px;
 			height: 180px;
 		}
-		
-		canvas {
-			position: relative;
+
+		footer {
+			position: fixed;
+			left: 0;
+			bottom: 0;
+			width: 100%;
 			background-color: black;
-			top: 10px;
-			right: 10px;
-		} 
+			color: white;
+			text-align: center;
+		}
 
 		#frame {
 			position: relative;
@@ -20,6 +23,13 @@ body {
 			height: 800px;
 			border: solid 1px black;
 			margin: auto 160px;
+		}
+
+		#content {
+			position: relative;
+			width: 800px;
+			height: 600px;
+
 		}
 
 		.astro_table {
